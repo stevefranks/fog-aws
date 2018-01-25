@@ -17,7 +17,7 @@ module Fog
             when 'InstanceProfiles'
               @stack << 'InstanceProfiles'
             when 'Roles'
-              @stack << 'Role'
+              @stack << 'Roles'
             when 'member'
               case @stack.last
               when 'InstanceProfiles'
