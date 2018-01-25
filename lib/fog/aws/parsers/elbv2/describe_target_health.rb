@@ -42,7 +42,7 @@ module Fog
             when 'TargetHealth'
               @target_health_description[name] = @target_health
 
-            when 'Targets'
+            when 'TargetHealthDescriptions'
               @response['DescribeTargetHealthResult']['TargetHealthDescriptions'] = @target_health_descriptions
 
             when 'RequestId'
