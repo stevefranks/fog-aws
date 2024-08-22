@@ -4,7 +4,7 @@ module Fog
       module Compute
         class DescribeInstanceStatus < Fog::Parsers::Base
           def new_instance!
-            @instance = { 'instanceState' => {}, 'systemStatus' => { 'details' => [] }, 'instanceStatus' => { 'details' => [] }, 'eventsSet' => [] }
+            @instance = { 'instanceState' => {}, 'systemStatus' => { 'details' => [] }, 'instanceStatus' => { 'details' => [] }, 'eventsSet' => [], 'attachedEbsStatus' => { 'details' => [] } }
           end
 
           def new_item!
@@ -33,6 +33,8 @@ module Fog
               @inside = :instanceStatus
             when 'eventsSet'
               @inside = :eventsSet
+            when 'attachedEbsStatus'
+              @inside = :attachedEbsStatus
             end
           end
 
@@ -43,13 +45,13 @@ module Fog
               @instance[name] = value
             when 'nextToken', 'requestId'
               @response[name] = value
-            when 'systemStatus', 'instanceState', 'instanceStatus', 'eventsSet'
+            when 'systemStatus', 'instanceState', 'instanceStatus', 'eventsSet', 'attachedEbsStatus'
               @inside = nil
             when 'item'
               case @inside
               when :eventsSet
                 @instance['eventsSet'] << @item
-              when :systemStatus, :instanceStatus
+              when :systemStatus, :instanceStatus, :attachedEbsStatus
                 @instance[@inside.to_s]['details'] << @item
               when nil
                 @response['instanceStatusSet'] << @instance
